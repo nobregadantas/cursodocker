@@ -1,0 +1,17 @@
+events {}
+
+http {
+    upstream flask_backend {
+        least_conn;
+        server app1:5000;
+        server app2:5000;
+    }
+
+    server {
+        listen 80;
+
+        location / {
+            proxy_pass http://flask_backend;
+        }
+    }
+}
