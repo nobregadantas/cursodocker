@@ -1,17 +1,10 @@
-events {}
+FROM python:3.9-slim
 
-http {
-    upstream flask_backend {
-        least_conn;
-        server app1:5000;
-        server app2:5000;
-    }
+WORKDIR /app
 
-    server {
-        listen 80;
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-        location / {
-            proxy_pass http://flask_backend;
-        }
-    }
-}
+COPY . .
+
+CMD ["python", "app.py"]
